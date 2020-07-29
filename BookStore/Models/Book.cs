@@ -16,34 +16,8 @@ namespace BookStore.Models
         public string ImageSrc { get; set; }
 
     }
-    //private void SearchByTitle(Book book, string bookTitle)
-    //{
-    //    if (!book.Title.Any() || string.IsNullOrWhiteSpace(bookTitle))
-    //        return;
 
-    //    book = book.Where()
-    //}
-    
 }
-       
-
-        //public class Books
-        //{
-        //    public List<Book> List()
-        //    {
-        //        return new List<Book> { }
-                
-        //        .OrderBy(a => a.Title).ToList();
-        //    }
-
-        //    public List<Book> GetByTitleSubstring(string titleSubstring)
-        //    {
-        //        return List()
-        //            .Where(a =>
-        //            a.Title.IndexOf(titleSubstring, 0, StringComparison.CurrentCultureIgnoreCase) != -1)
-        //            .ToList();
-
-        //    }
 
 
 

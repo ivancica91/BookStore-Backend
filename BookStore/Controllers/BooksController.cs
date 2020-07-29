@@ -28,40 +28,23 @@ namespace BookStore.Controllers
         }
 
 
-        // GET: api/Books/search?namelike=th
-        [HttpGet("Search")]
-        //public IActionResult Search(string namelike)
-        //{
-        //    var result = _context.GetByNameSubstring(namelike);
-        //    if (!result.Any())
-        //    {
-        //        return NotFound(namelike);
-        //    }
-        //    return Ok(result);
-        //}
-
-        //public async Task<ActionResult<IEnumerable<Book>>> Search(string name)
-        //{
-        //    // https://www.pragimtech.com/blog/blazor/search-in-asp.net-core-rest-api/
-        //    try
-        //    {
-        //        var result = await _context.Search(name);
-
-        //        if (result.Any())
-        //        {
-        //            return Ok(result);
-        //        }
-
-        //        return NotFound();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError,
-        //            "Error retrieving data from the database");
-        //    }
-        //}
-
-
+        // GET: api/Books/findbooks?bookTitle=
+        [HttpGet("[action]")]
+        public IActionResult FindBooks(string bookTitle)
+        {
+            var books = from Book in _context.Books
+                        where Book.Title.Contains(bookTitle) //moze i starts with
+                        select new
+                        {
+                            Id = Book.Id,
+                            Title = Book.Title,
+                            Author = Book.Author,                         
+                            Price = Book.Price,
+                            ImageSrc = Book.ImageSrc
+                        };
+            return Ok(books);
+        }
+        
 
         // GET: api/Books/5
         [HttpGet("{id:int}")]
