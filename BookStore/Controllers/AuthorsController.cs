@@ -2,7 +2,6 @@
 using BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,23 +43,12 @@ namespace BookStore.Controllers
         [HttpGet("[action]")]
         public async Task<ActionResult<List<AuthorResponse>>> FindAuthor([FromQuery] FindAuthorQuery query)
         {
-
-            List < AuthorResponse > authors = new List<AuthorResponse>();
-            try
-            {
-                authors = await this._context.Authors
-                .Where(author => author.FirstName.StartsWith(query.FirstName))
-                .Skip((query.Page - 1) * query.Limit)
-                .Take(query.Limit)
-                .Select(author => new AuthorResponse() { Id = author.Id, FirstName = author.FirstName, LastName = author.LastName })
-                .ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                var x = 1;
-            }
-
-            
+            List<AuthorResponse> authors = await this._context.Authors
+            .Where(author => author.FirstName.StartsWith(query.FirstName))
+            .Skip((query.Page - 1) * query.Limit)
+            .Take(query.Limit)
+            .Select(author => new AuthorResponse() { Id = author.Id, FirstName = author.FirstName, LastName = author.LastName })
+            .ToListAsync();
 
             return this.Ok(authors);
         }
@@ -88,7 +76,11 @@ namespace BookStore.Controllers
         [HttpPost]
         public async Task<ActionResult<AuthorResponse>> PostAuthor([FromBody] PostAuthor author)
         {
-            Author newAuthor = new Author() { FirstName = author.FirstName, LastName = author.LastName };
+            string[] values = author.FullName.Split(' ');
+            string firstName = values[0];
+            string lastName = values[1];
+
+            Author newAuthor = new Author() { FirstName = firstName, LastName = lastName };
 
             _context.Authors.Add(newAuthor);
 
