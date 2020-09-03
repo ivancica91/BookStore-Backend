@@ -133,7 +133,6 @@ namespace BookStore.Controllers
         //    existingBook.Description = book.Description;
         //    existingBook.ImageSrc = book.ImageSrc;
         //    existingBook.Price = book.Price;
-        //    //existingBook.Author = ????? jesmo to rekli ne mijenjat nego cemo po authorIdu? authorId obavezno mora bit u postmanu
 
         //    this._context.Update(existingBook);
         //    await this._context.SaveChangesAsync();
@@ -147,8 +146,7 @@ namespace BookStore.Controllers
             var existingBook = await this._context.Books.FindAsync(id);
 
             Author author = await this._context.Authors.FindAsync(book.Author.FullName);
-            if (author == null) // promijenio s putBook na existingBook, probaj se igrat s tim
-                // mozda ne trebam ovo jer kad ce autor bit null?
+            if (author == null) // mozda ne trebam ovo jer kad ce autor bit null?
             {
                 author = new Author() { FirstName = book.Author.FullName.Split(' ')[0], LastName = book.Author.FullName.Split(' ')[1] };
                 this._context.Authors.Add(author);
@@ -159,8 +157,7 @@ namespace BookStore.Controllers
             {
                 existingBook.Author.FirstName = book.Author.FullName.Split(' ')[0];
                 existingBook.Author.LastName = book.Author.FullName.Split(' ')[1];
-                existingBook.AuthorId = book.AuthorId;
-                //nekkao da stavi id od vec postojeceg autora?!?!?!?!
+                existingBook.AuthorId = book.AuthorId;  //nekako da stavi id od vec postojeceg autora?!?!?!?!
             }
 
             existingBook.Title = book.Title;

@@ -9,7 +9,7 @@
         public string Condition { get; set; }
         public string ImageSrc { get; set; }
         public int AuthorId { get; set; }
-      // public string? AuthorName { get; set; }      //mozda zbog edita, mozda i obrisi
+      
         public Author Author { get; set; }
     }
 }

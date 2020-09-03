@@ -7,6 +7,6 @@ namespace BookStore.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<Book> Books { get; } = new List<Book>(); //zasto ovdje ovako, ne samo get set?
+        public List<Book> Books { get; } = new List<Book>(); 
     }
 }
