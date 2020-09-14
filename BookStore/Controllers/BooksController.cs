@@ -141,34 +141,38 @@ namespace BookStore.Controllers
         //}
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutBook(int id, PutBook book)
+        public async Task<IActionResult> PutBook(int id, PutBook putBook)
         {
-            var existingBook = await this._context.Books.FindAsync(id);
+            Book existingBook = await this._context.Books.FindAsync(id);
+            Author author;
 
-            Author author = await this._context.Authors.FindAsync(book.Author.FullName);
-            if (author == null) // mozda ne trebam ovo jer kad ce autor bit null?
+            if (putBook.AuthorId != null)
             {
-                author = new Author() { FirstName = book.Author.FullName.Split(' ')[0], LastName = book.Author.FullName.Split(' ')[1] };
-                this._context.Authors.Add(author);
+                author = await this._context.Authors.FindAsync(putBook.AuthorId);
+
+                if (author == null)
+                {
+                    author = new Author() { FirstName = putBook.AuthorName.Split(' ')[0], LastName = putBook.AuthorName.Split(' ')[1] };
+                    this._context.Authors.Add(author);
+                }
+
+            }
+            else
+            {
+                author = new Author() { FirstName = putBook.AuthorName.Split(' ')[0], LastName = putBook.AuthorName.Split(' ')[1] };
+                this._context.Add(author);
             }
 
-
-            if (book.Author.FullName != $"{existingBook.Author.FirstName} {existingBook.Author.LastName}")
-            {
-                existingBook.Author.FirstName = book.Author.FullName.Split(' ')[0];
-                existingBook.Author.LastName = book.Author.FullName.Split(' ')[1];
-                existingBook.AuthorId = book.AuthorId;  //nekako da stavi id od vec postojeceg autora?!?!?!?!
-            }
-
-            existingBook.Title = book.Title;
-            existingBook.Condition = book.Condition;
-            existingBook.Description = book.Description;
-            existingBook.ImageSrc = book.ImageSrc;
-            existingBook.Price = book.Price;
-
+            existingBook.Title = putBook.Title;
+            existingBook.Condition = putBook.Condition;
+            existingBook.Description = putBook.Description;
+            existingBook.ImageSrc = putBook.ImageSrc;
+            existingBook.Price = putBook.Price;
+            existingBook.Author = author;
+            
             this._context.Update(existingBook);
             await this._context.SaveChangesAsync();
-            return Ok(book.Author);
+            return Ok();
         }
 
         // POST: api/Books

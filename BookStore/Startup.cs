@@ -36,6 +36,9 @@ namespace BookStore
                      .AllowAnyMethod()
                      .AllowAnyHeader();
             }));
+            services.AddControllers().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
         }
 
 
