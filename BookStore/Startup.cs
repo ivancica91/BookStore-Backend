@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookStore.Controllers.Models.Author;
+using BookStore.Controllers.Models.Book;
 using BookStore.Models;
+using BookStore.Validators;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,9 +40,16 @@ namespace BookStore
                      .AllowAnyMethod()
                      .AllowAnyHeader();
             }));
-            services.AddControllers().AddNewtonsoftJson(options =>
-            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+            services.AddControllers()
+                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BookValidator>())
+                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PostBookValidator>())
+                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PutBookValidator>())
+                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AuthorValidator>())
+                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PostAuthorValidator>())
+                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PutAuthorValidator>())
+                .AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
         }
 
 

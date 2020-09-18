@@ -1,4 +1,9 @@
-﻿namespace BookStore.Models
+﻿
+
+using BookStore.Validators;
+using FluentValidation.Results;
+
+namespace BookStore.Models
 {
     public class Book
     {
@@ -11,6 +16,18 @@
         public int AuthorId { get; set; }
       
         public Author Author { get; set; }
+
+
+
+        // Validation 
+        //Book book = new Book();
+        //BookValidator validator = new BookValidator();
+
+        //ValidationResult result = validator.Validate(book);
+
+
+
+
     }
 }
 

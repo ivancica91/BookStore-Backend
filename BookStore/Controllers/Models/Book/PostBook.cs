@@ -1,4 +1,6 @@
-﻿namespace BookStore.Controllers.Models.Book
+﻿using FluentValidation;
+
+namespace BookStore.Controllers.Models.Book
 {
     public class PostBook
     {
@@ -10,5 +12,19 @@
         public string Description { get; set; }
         public string Condition { get; set; }
         public string ImageSrc { get; set; }
+    }
+
+    public class PostBookValidator : AbstractValidator<PostBook>
+    {
+        public PostBookValidator()
+        {
+            RuleFor(b => b.AuthorFullName).NotEmpty();
+            RuleFor(b => b.Condition).NotEmpty();
+            RuleFor(b => b.Description).NotEmpty();
+            RuleFor(b => b.ImageSrc).NotEmpty();
+            RuleFor(b => b.Price).GreaterThanOrEqualTo(5);
+            RuleFor(b => b.Title).NotEmpty();
+
+        }
     }
 }
