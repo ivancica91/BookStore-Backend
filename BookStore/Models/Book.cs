@@ -1,6 +1,6 @@
 ﻿
 
-using BookStore.Validators;
+
 using FluentValidation.Results;
 
 namespace BookStore.Models
@@ -14,7 +14,7 @@ namespace BookStore.Models
         public string Condition { get; set; }
         public string ImageSrc { get; set; }
         public int AuthorId { get; set; }
-      
+
         public Author Author { get; set; }
 
 

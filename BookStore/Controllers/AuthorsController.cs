@@ -13,44 +13,57 @@ namespace BookStore.Controllers
     public class AuthorsController : ControllerBase
     {
         private readonly BookStoreContext _context;
+        private readonly IAuthorService _authorService;
 
-        public AuthorsController(BookStoreContext context)
+        public AuthorsController(BookStoreContext context, IAuthorService authorService)
         {
-            _context = context;
+           this._context = context;
+           this._authorService = authorService;
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<List<AuthorResponse>>> GetAuthors()
         {
-            return await _context.Authors
-                .Select(author => new AuthorResponse() { Id = author.Id, FirstName = author.FirstName, LastName = author.LastName })
-                .ToListAsync();
+            var authors = await this._authorService.GetListAsync();
+            return authors;
+
+            //return await _context.Authors
+            //    .Select(author => new AuthorResponse() { Id = author.Id, FirstName = author.FirstName, LastName = author.LastName })
+            //    .ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<AuthorResponse>> GetAuthor(int id)
         {
-            var author = await _context.Authors.FindAsync(id);
+            var author = await this._authorService.GetAuthorById(id);
+            return author;
 
-            if (author == null)
-            {
-                return NotFound();
-            }
+            //var author = await _context.Authors.FindAsync(id);
 
-            return new AuthorResponse() { Id = author.Id, FirstName = author.FirstName, LastName = author.LastName };
+            //if (author == null)
+            //{
+            //    return NotFound();
+            //}
+       
+            //return new AuthorResponse() { Id = author.Id, FirstName = author.FirstName, LastName = author.LastName };
         }
 
         [HttpGet("[action]")]
         public async Task<ActionResult<List<AuthorResponse>>> FindAuthor([FromQuery] FindAuthorQuery query)
         {
-            List<AuthorResponse> authors = await this._context.Authors
-            .Where(author => author.FirstName.StartsWith(query.FirstName))
-            .Skip((query.Page - 1) * query.Limit)
-            .Take(query.Limit)
-            .Select(author => new AuthorResponse() { Id = author.Id, FirstName = author.FirstName, LastName = author.LastName })
-            .ToListAsync();
-
+            var authors = await this._authorService.FindAuthor(query);
             return this.Ok(authors);
+
+            // JOS TESTIRATI OVO GORE!!!
+
+            //List<AuthorResponse> authors = await this._context.Authors
+            //.Where(author => author.FirstName.StartsWith(query.FirstName))
+            //.Skip((query.Page - 1) * query.Limit)
+            //.Take(query.Limit)
+            //.Select(author => new AuthorResponse() { Id = author.Id, FirstName = author.FirstName, LastName = author.LastName })
+            //.ToListAsync();
+
+            //return this.Ok(authors);
         }
 
         [HttpPut("{id}")]

@@ -115,31 +115,6 @@ namespace BookStore.Controllers
             return this.Ok(bookResponse);
         }
 
-
-        //------------------- Working Put ,, but trying to do a more "complex" one ---------
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutBook(int id, PutBook book)
-        //{
-        //    Book existingBook = await _context.Books.FindAsync(id);
-
-        //    if (existingBook == null)
-        //    {
-        //        return NotFound("Book is not found.");
-        //    }
-
-        //    existingBook.Title = book.Title;
-        //    existingBook.AuthorId = book.AuthorId;
-        //    existingBook.Condition = book.Condition;
-        //    existingBook.Description = book.Description;
-        //    existingBook.ImageSrc = book.ImageSrc;
-        //    existingBook.Price = book.Price;
-
-        //    this._context.Update(existingBook);
-        //    await this._context.SaveChangesAsync();
-        //    return NoContent();
-        //    //radi
-        //}
-
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook(int id, PutBook putBook)
         {
